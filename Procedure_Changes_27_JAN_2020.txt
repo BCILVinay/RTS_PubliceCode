@@ -1,0 +1,25 @@
+Utility 
+
+insert into mRunningSerialNo(SiteID ,TransType , SerialNo)
+SELECT   LOCATION  , CATEGORY_CODE , MAX(RUNNING_SERIAL_NO) from ASSET_ACQUISITION  Group by  CATEGORY_CODE , LOCATION ;
+
+-------------Procedure Chages .
+
+Proc Name : sp_AssetAcquisition
+
+	IF @TYPE = 'GETMAXACQUISITIONID'
+
+
+
+			BEGIN
+
+
+
+			--	SELECT ISNULL(MAX(RUNNING_SERIAL_NO),0)+1 AS RSN FROM ASSET_ACQUISITION WHERE CATEGORY_CODE = @CATEGORY_CODE AND LOCATION=@STORAGE_LOC_CODE			
+
+			DECLARE @RunningSerialNo VARCHAR(20)='' ;
+			EXEC Ud_mrunningserialno  @STORAGE_LOC_CODE	 ,  1,  @CATEGORY_CODE , 0,  0,  @RunningSerialNo output; 
+			SELECT @RunningSerialNo AS RSN ;
+
+
+			END
